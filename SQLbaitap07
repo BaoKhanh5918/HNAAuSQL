@@ -1,0 +1,38 @@
+bài tập 1 :
+db.san_pham.find({}, { ten_sp: 1, gia_ban: 1, _id: 0 })
+bài tập 2 :
+db.san_pham.find({}, { ten_sp: 1, so_luong_ban: 1, _id: 0 })
+  .sort({ so_luong_ban: -1 })
+  .limit(3)
+bài tập 3 
+db.san_pham.find()
+  .sort({ ten_sp: 1 })
+  .skip(3)
+  .limit(3)
+bài tạp 4 
+db.san_pham.aggregate([
+  {
+    $match: { danh_muc: "Cà Phê Pha Máy" }
+  },
+  {
+    $group: {
+      _id: "$danh_muc",
+      gia_trung_binh: { $avg: "$gia_ban" }
+    }
+  }
+])
+bài tập 5 
+db.san_pham.aggregate([
+  {
+    $group: {
+      _id: "$danh_muc",
+      tong_so_luong: { $sum: "$so_luong_ban" }
+    }
+  },
+  {
+    $match: { tong_so_luong: { $gt: 500 } }
+  },
+  {
+    $sort: { tong_so_luong: -1 }
+  }
+])
